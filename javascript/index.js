@@ -1,10 +1,9 @@
-const BASE_URL = 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=benefit'
+const BASE_URL = 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=clinique'
 const productCardContainer = document.getElementById('product-card-container');
-//const imageContainer = document.getElementById('image-container');
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchAPI();
-    
+    fetchAPI();    
 })
 
 //Get data from API and for each product send it to the renderProducts function
@@ -24,13 +23,16 @@ const renderProducts = (product) => {
     productCard.className = 'product-card'
 
     const image = createElem('img');
-    image.src = product["api_featured_image"];
+    image.src = product["image_link"];
+    image.className = 'image-card';
       
     const name = createElem('p');
     name.textContent = product.name;
+    name.className = 'product-name'
 
     const price = createElem('p');
-    price.textContent = product.price;
+    price.textContent = `$ ${product.price}0`;
+    price.className = 'product-price'
 
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price);
