@@ -17,8 +17,10 @@ const fetchAPI = () => {
 
 //Helper functions
 const createElem = tag => document.createElement(tag);
+const selectElement = id => document.getElementById(id);
 
-const renderProducts = (product) => {
+
+function renderProducts(product){
     const productCard = createElem('div')
     productCard.className = 'product-card'
 
@@ -37,3 +39,12 @@ const renderProducts = (product) => {
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price);
 } 
+
+const brows = selectElement('brows');
+brows.addEventListener('click', () => {
+    fetch(BASE_URL + '&product_type=eyebrow')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
