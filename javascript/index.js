@@ -25,3 +25,24 @@ const fetchImages = () => {
         products.forEach(product => product["api_featured_image"])
     })
 }
+
+//Helper functions
+const createElem = tag => document.createElement(tag);
+
+const renderProducts = (product) => {
+    fetchImages();
+    const productCard = createElem('div')
+    productCard.className = 'product-card'
+
+    const image = createElem('img');
+    image.src = product["api_featured_image"];
+
+    const name = createElem('p');
+    name.textContent = product.name;
+
+    const price = createElem('p');
+    price.textContent = product.price;
+
+    productCardDiv.append(productCard);
+    productCard.append(image, name, price);
+} 
