@@ -11,23 +11,27 @@ const fetchAPI = () => {
     fetch(BASE_URL)
     .then(resp => resp.json())
     .then(products => {
-        products.forEach(product => renderProducts(product))
+        products.forEach(product => {
+            console.log(product)
+            renderProducts(product) })
+        
     })
 }
 
-//Helper functions
-const createElem = tag => document.createElement(tag);
-const selectElement = id => document.getElementById(id);
+
 
 //clear container
 const resetCardContainer = () => {
     productCardContainer.innerHTML = "";
 }
 
+//Helper functions
+const createElem = tag => document.createElement(tag);
+const selectElement = id => document.getElementById(id);
 
 function renderProducts(product){
-    const productCard = createElem('div')
-    productCard.className = 'product-card'
+    const productCard = createElem('div');
+    productCard.className = 'product-card';
 
     const image = createElem('img');
     image.src = product["image_link"];
@@ -35,15 +39,26 @@ function renderProducts(product){
       
     const name = createElem('p');
     name.textContent = product.name;
-    name.className = 'product-name'
+    name.className = 'product-name';
 
     const price = createElem('p');
     price.textContent = `$ ${product.price}0`;
-    price.className = 'product-price'
+    price.className = 'product-price';
+
+    const button = createElem('button');
+    button.innerText = 'SHOP NOW';
+    button.addEventListener('click', (e, product) => {
+        e.preventDefault();
+        productCard.replace
+        fetch(BASE_URL + `${product.id}`)
+        .then(resp => resp.json())
+        .then(data => console.log(data))    
+})
 
     productCardContainer.appendChild(productCard);
-    productCard.append(image, name, price);
+    productCard.append(image, name, price, button);
 } 
+
 
 //event listener for allproducts
 const allProducts = selectElement('all-products');
@@ -72,17 +87,17 @@ brows.addEventListener('click', (e) => {
 });
 
 //event listener for blush
-const blush = selectElement('blush');
-blush.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
+// const blush = selectElement('blush');
+// blush.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     resetCardContainer();
    
-    fetch(BASE_URL + '&product_type=blush')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
+//     fetch(BASE_URL + '&product_type=blush')
+//     .then(resp => resp.json())
+//     .then(products => {
+//         products.forEach(product => renderProducts(product))
+//     })  
+// });
 
 //event listener for bronzer
 const bornzer = selectElement('bronzer');
@@ -148,3 +163,26 @@ lipstick.addEventListener('click', (e) => {
         products.forEach(product => renderProducts(product))
     })  
 });
+
+//Helper function for event listener
+
+const blush = selectElement('blush');
+
+function eventListenerTemplate (element) {
+    //const ${element} = selectElement('${element}');
+    element.addEventListener('click', (e) => {
+        console.log(e.target)
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch(BASE_URL + `&product_type=${element}`) //does this not work?
+        .then(resp => resp.json())
+        .then(products => 
+            products.forEach(product => console.log(product))
+            )  
+        });
+    }
+    
+    eventListenerTemplate(blush);
+
+
