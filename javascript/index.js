@@ -73,7 +73,7 @@ brows.addEventListener('click', (e) => {
 
 //event listener for blush
 const blush = selectElement('blush');
-brows.addEventListener('click', (e) => {
+blush.addEventListener('click', (e) => {
     e.preventDefault();
     resetCardContainer();
    
@@ -91,6 +91,58 @@ bronzer.addEventListener('click', (e) => {
     resetCardContainer();
    
     fetch(BASE_URL + '&product_type=bronzer')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
+
+//event listener for eyeliner
+const eyeliner = selectElement('eyeliner');
+eyeliner.addEventListener('click', (e) => {
+    e.preventDefault();
+    resetCardContainer();
+   
+    fetch(BASE_URL + '&product_type=eyeliner')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
+
+//event listener for eyeshadow
+const eyeshadow = selectElement('eyeshadow');
+eyeshadow.addEventListener('click', (e) => {
+    e.preventDefault();
+    resetCardContainer();
+   
+    fetch(BASE_URL + '&product_type=eyeshadow')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
+
+//event listener for foundation
+const foundation = selectElement('foundation');
+foundation.addEventListener('click', (e) => {
+    e.preventDefault();
+    resetCardContainer();
+   
+    fetch(BASE_URL + '&product_type=foundation')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
+
+//event listener for lipstick
+const lipstick = selectElement('lipstick');
+lipstick.addEventListener('click', (e) => {
+    e.preventDefault();
+    resetCardContainer();
+   
+    fetch(BASE_URL + '&product_type=lipstick')
     .then(resp => resp.json())
     .then(products => {
         products.forEach(product => renderProducts(product))
