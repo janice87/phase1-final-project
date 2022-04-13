@@ -1,6 +1,6 @@
 const BASE_URL = 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=clinique'
 const productCardContainer = document.getElementById('product-card-container');
-
+const cartContainer = document.getElementById('cart-container');
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchAPI();    
@@ -12,13 +12,11 @@ const fetchAPI = () => {
     .then(resp => resp.json())
     .then(products => {
         products.forEach(product => {
-            console.log(product)
+            //console.log(product)
             renderProducts(product) })
         
     })
 }
-
-
 
 //clear container
 const resetCardContainer = () => {
@@ -45,20 +43,47 @@ function renderProducts(product){
     price.textContent = `$ ${product.price}0`;
     price.className = 'product-price';
 
-    const button = createElem('button');
-    button.innerText = 'SHOP NOW';
-    button.addEventListener('click', (e, product) => {
-        e.preventDefault();
-        productCard.replace
-        fetch(BASE_URL + `${product.id}`)
-        .then(resp => resp.json())
-        .then(data => console.log(data))    
-})
+    const addButton = createElem('button');
+    addButton.textContent = 'ADD';
+    addButton.addEventListener('click', (e, product) => {
+        addButton.className = "add-to-cart"
+        addToCart(e, product)
+    })
+    
 
+    const deleteButton = createElem('button');
+    deleteButton.textContent = 'DELETE';
+    //deleteButton.addEventListener('click', deleteFromCart)
+   
     productCardContainer.appendChild(productCard);
-    productCard.append(image, name, price, button);
+    productCard.append(image, name, price, addButton, deleteButton);
 } 
 
+//want this to display whats in cart
+const cart = document.getElementById('cart')
+cart.addEventListener('click', e => {
+    e.preventDefault();
+    resetCardContainer();
+
+})
+
+//when add is clicked we want that object to be added to this array
+const addToCart = (e, product) => {
+    let productsInCart = [];
+    if(e.target.classList.contains('add-to-cart')) {
+        productsInCart.push(product)
+    }
+    console.log(e.target)
+    
+}
+
+// const deleteFromCart = () => {
+
+// }
+
+// const getCart = () => {
+//     resetCardContainer();
+// }
 
 //event listener for allproducts
 const allProducts = selectElement('all-products');
@@ -165,7 +190,6 @@ lipstick.addEventListener('click', (e) => {
 });
 
 //Helper function for event listener
-
 const blush = selectElement('blush');
 
 function eventListenerTemplate (element) {
@@ -178,7 +202,7 @@ function eventListenerTemplate (element) {
         fetch(BASE_URL + `&product_type=${element}`) //does this not work?
         .then(resp => resp.json())
         .then(products => 
-            products.forEach(product => console.log(product))
+            products.forEach(product => renderProducts(product))
             )  
         });
     }
