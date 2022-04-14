@@ -1,4 +1,4 @@
-const BASE_URL = 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=clinique'
+const BASE_URL = 'http://localhost:3000'
 const productCardContainer = document.getElementById('product-card-container');
 const cartContainer = document.getElementById('cart-container');
 
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //Get data from API and for each product send it to the renderProducts function
 const fetchAPI = () => {
-    fetch(BASE_URL)
+    fetch(BASE_URL + '/products/')
     .then(resp => resp.json())
     .then(products => {
         products.forEach(product => {
@@ -68,14 +68,14 @@ cart.addEventListener('click', e => {
 })
 
 //when add is clicked we want that object to be added to this array
-const addToCart = (e, product) => {
-    let productsInCart = [];
-    if(e.target.classList.contains('add-to-cart')) {
-        productsInCart.push(product)
-    }
-    console.log(e.target)
+// const addToCart = (e, product) => {
+//     let productsInCart = [];
+//     if(e.target.classList.contains('add-to-cart')) {
+//         productsInCart.push(product)
+//     }
+//     console.log(e.target)
     
-}
+// }
 
 // const deleteFromCart = () => {
 
@@ -98,115 +98,39 @@ allProducts.addEventListener('click', (e) => {
     })  
 });
 
-//event listener for brows
-const brows = selectElement('brows');
-brows.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=eyebrow')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//event listener for blush
-// const blush = selectElement('blush');
-// blush.addEventListener('click', (e) => {
-//     e.preventDefault();
-//     resetCardContainer();
-   
-//     fetch(BASE_URL + '&product_type=blush')
-//     .then(resp => resp.json())
-//     .then(products => {
-//         products.forEach(product => renderProducts(product))
-//     })  
-// });
-
-//event listener for bronzer
-const bornzer = selectElement('bronzer');
-bronzer.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=bronzer')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//event listener for eyeliner
-const eyeliner = selectElement('eyeliner');
-eyeliner.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=eyeliner')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//event listener for eyeshadow
-const eyeshadow = selectElement('eyeshadow');
-eyeshadow.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=eyeshadow')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//event listener for foundation
-const foundation = selectElement('foundation');
-foundation.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=foundation')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//event listener for lipstick
-const lipstick = selectElement('lipstick');
-lipstick.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL + '&product_type=lipstick')
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-//Helper function for event listener
-const blush = selectElement('blush');
-
-function eventListenerTemplate (element) {
-    //const ${element} = selectElement('${element}');
-    element.addEventListener('click', (e) => {
-        console.log(e.target)
+// event listener
+    const eyes = selectElement('eyes');
+    eyes.addEventListener('click', (e) => {
         e.preventDefault();
         resetCardContainer();
         
-        fetch(BASE_URL + `&product_type=${element}`) //does this not work?
+        fetch('http://localhost:3000/eyes/') 
         .then(resp => resp.json())
         .then(products => 
             products.forEach(product => renderProducts(product))
-            )  
-        });
-    }
-    
-    eventListenerTemplate(blush);
+        )
+    })
 
+    const lips = selectElement('lips');
+    lips.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch('http://localhost:3000/lips/') 
+        .then(resp => resp.json())
+        .then(products => 
+            products.forEach(product => renderProducts(product))
+        )
+    })
+
+    const faces = selectElement('faces');
+    faces.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch('http://localhost:3000/faces/') 
+        .then(products => 
+            products.forEach(product => console.log(product))
+        )
+    })
 
