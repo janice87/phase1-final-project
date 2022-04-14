@@ -1,8 +1,9 @@
 const productCardContainer = document.getElementById('product-card-container');
 const cartContainer = document.getElementById('cart-container');
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (e) => {
     loadMainPage();    
+    e.preventDefault();
 })
 
 //Get data from API and for each product send it to the renderProducts function
@@ -67,12 +68,11 @@ function renderProducts(product){
 } 
 
 
-const createAccount = () => {
-    resetCardContainer();
-}
-
-const account = selectElement('account');
-account.addEventListener('click', createAccount)
+const account = selectElement('create-account');
+account.addEventListener('submit', (e) => {
+    e.preventDefault();
+    account.reset();
+})
 
 
 //event listener for allproducts
