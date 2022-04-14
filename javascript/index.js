@@ -1,20 +1,19 @@
-const BASE_URL = 'http://localhost:3000'
 const productCardContainer = document.getElementById('product-card-container');
 const cartContainer = document.getElementById('cart-container');
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchAPI();    
+    loadMainPage();    
 })
 
 //Get data from API and for each product send it to the renderProducts function
-const fetchAPI = () => {
-    fetch(BASE_URL + '/products/')
+const loadMainPage = () => {
+    fetch('http://localhost:3000/products')
     .then(resp => resp.json())
     .then(products => {
         products.forEach(product => {
             //console.log(product)
-            renderProducts(product) })
-        
+            renderProducts(product) 
+        })        
     })
 }
 
@@ -45,29 +44,96 @@ function renderProducts(product){
 
     const addButton = createElem('button');
     addButton.textContent = 'ADD';
-    addButton.addEventListener('click', (e, product) => {
-        addButton.className = "add-to-cart"
-        addToCart(e, product)
+    addButton.addEventListener('click', () => {
+        const total = selectElement('total');
+        let sum = 0;
+        let price = parseInt(product.price, 10)
+        sum += price
+        total.innerHTML = sum;       
     })
-    
 
     const deleteButton = createElem('button');
     deleteButton.textContent = 'DELETE';
-    //deleteButton.addEventListener('click', deleteFromCart)
+    deleteButton.addEventListener('click', () => {
+        const total = selectElement('total');
+        let sum = 0;
+        let price = parseInt(product.price, 10)
+        sum -= price
+        total.innerHTML = sum;         
+    })
    
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price, addButton, deleteButton);
 } 
 
-//want this to display whats in cart
-const cart = document.getElementById('cart')
-cart.addEventListener('click', e => {
+
+const createAccount = () => {
+    resetCardContainer();
+}
+
+const account = selectElement('account');
+account.addEventListener('click', createAccount)
+
+
+//event listener for allproducts
+const allProducts = selectElement('all-products');
+allProducts.addEventListener('click', (e) => {
     e.preventDefault();
     resetCardContainer();
+   
+    fetch('http://localhost:3000/products')
+    .then(resp => resp.json())
+    .then(products => {
+        products.forEach(product => renderProducts(product))
+    })  
+});
 
-})
+const eyes = selectElement('eyes');
+eyes.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch('http://localhost:3000/eyes/') 
+        .then(resp => resp.json())
+        .then(products => 
+            products.forEach(product => renderProducts(product))
+        )
+    })
 
-//when add is clicked we want that object to be added to this array
+const lips = selectElement('lips');
+lips.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch('http://localhost:3000/lips/') 
+        .then(resp => resp.json())
+        .then(products => 
+            products.forEach(product => renderProducts(product))
+        )
+    })
+
+const faces = selectElement('faces');
+faces.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        
+        fetch('http://localhost:3000/faces/') 
+        .then(resp => resp.json())
+        .then(products => 
+            products.forEach(product => renderProducts(product))
+        )
+    })
+
+//want this to display whats in cart
+// const cart = document.getElementById('cart')
+// cart.addEventListener('click', e => {
+//     e.preventDefault();
+//     const total = selectElement('total');
+//     total.innerText = 
+//     //resetCardContainer();
+
+// })
+
 // const addToCart = (e, product) => {
 //     let productsInCart = [];
 //     if(e.target.classList.contains('add-to-cart')) {
@@ -84,53 +150,3 @@ cart.addEventListener('click', e => {
 // const getCart = () => {
 //     resetCardContainer();
 // }
-
-//event listener for allproducts
-const allProducts = selectElement('all-products');
-allProducts.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-   
-    fetch(BASE_URL)
-    .then(resp => resp.json())
-    .then(products => {
-        products.forEach(product => renderProducts(product))
-    })  
-});
-
-// event listener
-    const eyes = selectElement('eyes');
-    eyes.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        
-        fetch('http://localhost:3000/eyes/') 
-        .then(resp => resp.json())
-        .then(products => 
-            products.forEach(product => renderProducts(product))
-        )
-    })
-
-    const lips = selectElement('lips');
-    lips.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        
-        fetch('http://localhost:3000/lips/') 
-        .then(resp => resp.json())
-        .then(products => 
-            products.forEach(product => renderProducts(product))
-        )
-    })
-
-    const faces = selectElement('faces');
-    faces.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        
-        fetch('http://localhost:3000/faces/') 
-        .then(products => 
-            products.forEach(product => console.log(product))
-        )
-    })
-
