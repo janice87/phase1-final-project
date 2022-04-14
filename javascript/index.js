@@ -67,11 +67,45 @@ function renderProducts(product){
     productCard.append(image, name, price, addButton, deleteButton);
 } 
 
+const formContainer = selectElement('form-container');
+const form = selectElement('create-account');
 
-const account = selectElement('create-account');
-account.addEventListener('submit', (e) => {
+const account = selectElement('account');
+account.addEventListener('click', (e) => {
     e.preventDefault();
-    account.reset();
+    resetCardContainer();
+    form.reset();
+
+    const h4 = createElem('h4');
+    h4.textContent = 'Create an account to get exclusive online offers and updates!';
+
+    const nameLabel = createElem('label');
+    nameLabel.textContent = 'First Name:';
+    
+    const nameInput = createElem('input');
+    nameInput.type = 'text';
+    nameInput.placeholder = "Enter first name";
+
+    const lastNameLabel = createElem('label');
+    lastNameLabel.textContent = 'Last Name:';
+    
+    const lastNameInput = createElem('input');
+    lastNameInput.type = 'text';
+    lastNameInput.placeholder = "Enter last name";
+
+    const emailLabel = createElem('label');
+    emailLabel.textContent = 'Email:';
+    
+    const emailInput = createElem('input');
+    emailInput.type = 'text';
+    emailInput.placeholder = "Email";
+
+    const submitButton = createElem('input');
+    submitButton.type = 'submit';
+    submitButton.value = "CREATE AN ACCOUNT";
+
+    formContainer.append(h4, nameLabel, nameInput, lastNameLabel, lastNameInput, emailLabel, emailInput, submitButton)
+    
 })
 
 
