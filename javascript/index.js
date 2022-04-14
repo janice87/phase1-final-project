@@ -53,9 +53,9 @@ function renderProducts(product){
         sum += price
         total.innerHTML = `$ ${sum}`;      
     })
-
+    
     const deleteButton = createElem('button');
-    deleteButton.textContent = 'DELETE';
+    deleteButton.textContent = 'REMOVE';
     deleteButton.addEventListener('click', () => {
         const total = selectElement('total');
         let sum = 0;
@@ -63,10 +63,11 @@ function renderProducts(product){
         sum -= price
         total.innerHTML = `$ ${sum}`;          
     })
-   
+      
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price, addButton, deleteButton);
 } 
+
 
 const formContainer = selectElement('form-container');
 const form = selectElement('form-signup');
@@ -128,14 +129,29 @@ lips.addEventListener('click', (e) => {
         )
     })
 
-const faces = selectElement('faces');
-faces.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        fetch('http://localhost:3000/faces/') 
-        .then(resp => resp.json())
-        .then(products => 
-            products.forEach(product => renderProducts(product))
-        )
-    })
+// const faces = selectElement('faces');
+// faces.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         resetCardContainer();
+//         fetch('http://localhost:3000/faces/') 
+//         .then(resp => resp.json())
+//         .then(products => 
+//             products.forEach(product => renderProducts(product))
+//         )
+//     })
+
+    const faces = selectElement('faces');
+    function fetchProducts(element) {
+        element.addEventListener('click', (e) => {
+                e.preventDefault();
+                resetCardContainer();
+                fetch(`http://localhost:3000/${element}/`) 
+                .then(resp => resp.json())
+                .then(products => 
+                    products.forEach(product => renderProducts(product))
+                )
+            })
+    }
+    fetchProducts(faces)
+
 
