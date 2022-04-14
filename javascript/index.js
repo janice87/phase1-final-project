@@ -4,6 +4,7 @@ const cartContainer = document.getElementById('cart-container');
 document.addEventListener('DOMContentLoaded', (e) => {
     loadMainPage();    
     e.preventDefault();
+    createForm();
 })
 
 //Get data from API and for each product send it to the renderProducts function
@@ -12,8 +13,8 @@ const loadMainPage = () => {
     .then(resp => resp.json())
     .then(products => {
         products.forEach(product => {
-            //console.log(product)
             renderProducts(product) 
+           
         })        
     })
 }
@@ -50,7 +51,7 @@ function renderProducts(product){
         let sum = 0;
         let price = parseInt(product.price, 10)
         sum += price
-        total.innerHTML = `$ ${sum}`;       
+        total.innerHTML = `$ ${sum}`;      
     })
 
     const deleteButton = createElem('button');
@@ -67,35 +68,12 @@ function renderProducts(product){
     productCard.append(image, name, price, addButton, deleteButton);
 } 
 
-const formDiv = document.createElement('div')
-formDiv.id = 'form-div'
-//create form after clicking on account in nav bar
-function createForm() {
-    const formContainer = createElem('div');
-    formContainer.id = "form-account-container"
+const formContainer = selectElement('form-container');
+const form = selectElement('form-signup');
 
-    const form = createElem('form');
-    form.id = "form-account"
-
-    const h4 = createElem('h4');
-    h4.textContent = 'Create an account to get exclusive online offers and updates!';
-
-    const nameLabel = createElem('label');
-    nameLabel.textContent = 'First Name:';
-    
-    const nameInput = createElem('input');
-    nameInput.type = 'text';
-    nameInput.placeholder = "Enter first name";
-
-    const lastNameLabel = createElem('label');
-    lastNameLabel.textContent = 'Last Name:';
-    
-    const lastNameInput = createElem('input');
-    lastNameInput.type = 'text';
-    lastNameInput.placeholder = "Enter last name";
-
-    const emailLabel = createElem('label');
-    emailLabel.textContent = 'Email:';
+function createForm() { 
+    const content = createElem('p');
+    content.textContent = 'Sign up exclusive online offers and updates!';
     
     const emailInput = createElem('input');
     emailInput.type = 'text';
@@ -103,24 +81,17 @@ function createForm() {
 
     const submitButton = createElem('input');
     submitButton.type = 'submit';
-    submitButton.value = "CREATE AN ACCOUNT";
+    submitButton.value = "SUBMIT";
 
-    form.append(h4, nameLabel, nameInput, lastNameLabel, lastNameInput, emailLabel, emailInput, submitButton); 
+    form.append(content, emailInput, submitButton); 
     formContainer.append(form);
-    formDiv.append(formContainer); 
 }
 
-    //event listener for Account tab ADD DIV TO HTML TO APPEND???
-    const account = selectElement('account');
-    account.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        createForm();  
-    })
-    
-    //event listener for submit
-    
-    
+//event listener for submit
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    form.reset();
+})  
 
 
 //event listener for tabs
