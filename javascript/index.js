@@ -50,7 +50,7 @@ function renderProducts(product){
         let sum = 0;
         let price = parseInt(product.price, 10)
         sum += price
-        total.innerHTML = sum;       
+        total.innerHTML = `$ ${sum}`;       
     })
 
     const deleteButton = createElem('button');
@@ -60,21 +60,22 @@ function renderProducts(product){
         let sum = 0;
         let price = parseInt(product.price, 10)
         sum -= price
-        total.innerHTML = sum;         
+        total.innerHTML = `$ ${sum}`;          
     })
    
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price, addButton, deleteButton);
 } 
 
-const formContainer = selectElement('form-container');
-const form = selectElement('create-account');
+const formDiv = document.createElement('div')
+formDiv.id = 'form-div'
+//create form after clicking on account in nav bar
+function createForm() {
+    const formContainer = createElem('div');
+    formContainer.id = "form-account-container"
 
-const account = selectElement('account');
-account.addEventListener('click', (e) => {
-    e.preventDefault();
-    resetCardContainer();
-    form.reset();
+    const form = createElem('form');
+    form.id = "form-account"
 
     const h4 = createElem('h4');
     h4.textContent = 'Create an account to get exclusive online offers and updates!';
@@ -104,17 +105,29 @@ account.addEventListener('click', (e) => {
     submitButton.type = 'submit';
     submitButton.value = "CREATE AN ACCOUNT";
 
-    formContainer.append(h4, nameLabel, nameInput, lastNameLabel, lastNameInput, emailLabel, emailInput, submitButton)
+    form.append(h4, nameLabel, nameInput, lastNameLabel, lastNameInput, emailLabel, emailInput, submitButton); 
+    formContainer.append(form);
+    formDiv.append(formContainer); 
+}
+
+    //event listener for Account tab ADD DIV TO HTML TO APPEND???
+    const account = selectElement('account');
+    account.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetCardContainer();
+        createForm();  
+    })
     
-})
+    //event listener for submit
+    
+    
 
 
-//event listener for allproducts
+//event listener for tabs
 const allProducts = selectElement('all-products');
 allProducts.addEventListener('click', (e) => {
     e.preventDefault();
     resetCardContainer();
-   
     fetch('http://localhost:3000/products')
     .then(resp => resp.json())
     .then(products => {
@@ -126,7 +139,6 @@ const eyes = selectElement('eyes');
 eyes.addEventListener('click', (e) => {
         e.preventDefault();
         resetCardContainer();
-        
         fetch('http://localhost:3000/eyes/') 
         .then(resp => resp.json())
         .then(products => 
@@ -138,7 +150,6 @@ const lips = selectElement('lips');
 lips.addEventListener('click', (e) => {
         e.preventDefault();
         resetCardContainer();
-        
         fetch('http://localhost:3000/lips/') 
         .then(resp => resp.json())
         .then(products => 
@@ -150,7 +161,6 @@ const faces = selectElement('faces');
 faces.addEventListener('click', (e) => {
         e.preventDefault();
         resetCardContainer();
-        
         fetch('http://localhost:3000/faces/') 
         .then(resp => resp.json())
         .then(products => 
@@ -158,29 +168,3 @@ faces.addEventListener('click', (e) => {
         )
     })
 
-//want this to display whats in cart
-// const cart = document.getElementById('cart')
-// cart.addEventListener('click', e => {
-//     e.preventDefault();
-//     const total = selectElement('total');
-//     total.innerText = 
-//     //resetCardContainer();
-
-// })
-
-// const addToCart = (e, product) => {
-//     let productsInCart = [];
-//     if(e.target.classList.contains('add-to-cart')) {
-//         productsInCart.push(product)
-//     }
-//     console.log(e.target)
-    
-// }
-
-// const deleteFromCart = () => {
-
-// }
-
-// const getCart = () => {
-//     resetCardContainer();
-// }
