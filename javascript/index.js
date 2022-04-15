@@ -31,10 +31,11 @@ const selectElement = id => document.getElementById(id);
 function renderProducts(product){
     const productCard = createElem('div');
     productCard.className = 'product-card';
-
+    
     const image = createElem('img');
     image.src = product["image_link"];
     image.className = 'image-card';
+    image.addEventListener('click', () => showProduct(product))
       
     const name = createElem('p');
     name.textContent = product.name;
@@ -46,27 +47,70 @@ function renderProducts(product){
 
     const addButton = createElem('button');
     addButton.textContent = 'ADD';
+    addButton.className = "add-button"
     addButton.addEventListener('click', () => {
         const total = selectElement('total');
-        let sum = 0;
+        let prices = [];
         let price = parseInt(product.price, 10)
-        sum += price
-        total.innerHTML = `$ ${sum}`;      
+        prices.push(price);
+        let sum = prices.reduce((acc, price) => acc + price)
+        total.innerHTML = `$ ${sum}`; 
     })
-    
+        
+     
     const deleteButton = createElem('button');
     deleteButton.textContent = 'REMOVE';
     deleteButton.addEventListener('click', () => {
         const total = selectElement('total');
-        let sum = 0;
+        let prices = [];
         let price = parseInt(product.price, 10)
-        sum -= price
+        prices.pop();
+        let sum = prices.reduce((acc, price) => acc - price)
         total.innerHTML = `$ ${sum}`;          
     })
       
     productCardContainer.appendChild(productCard);
     productCard.append(image, name, price, addButton, deleteButton);
 } 
+
+
+const showProduct = (product) => {
+fetch(`http://localhost:3000/products/${product.id}`)
+.then(resp => resp.json())
+.then(product => {
+    const oneCard = showOneCard(product)
+    oneCard.className = "show-one-card"
+    productCardContainer.replaceChildren(oneCard)
+}) 
+}
+
+function showOneCard (product) {
+    const oneCard = createElem('div');
+
+    const image = createElem('img');
+    image.src = product["image_link"];
+    image.className = 'image-card';
+
+    const name = createElem('h5');
+    name.textContent = product.name
+
+    const price = createElem('p');
+    price.innerHTML = `$ ${product.price}0`
+
+    const desc = createElem('p')
+    desc.textContent = product.description
+
+    const button = createElem('button')
+    button.textContent = 'ADD TO CART'
+
+    const likeButton = createElem('button')
+    likeButton.textContent = "♥ ADD TO WISHLIST"
+    likeButton.addEventListener('click', () => alert("Your item has been added!"))
+      
+    productCardContainer.appendChild(oneCard);
+    oneCard.append(image, name, price, desc, button, likeButton)
+    return oneCard
+}
 
 
 const formContainer = selectElement('form-container');
