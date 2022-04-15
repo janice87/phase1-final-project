@@ -22,3 +22,13 @@
   .product-price {
     font-weight: bold;  
   }
+
+  .show-one-card {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;  
+    text-align: center;
+    width: 500px;
+    height: 600px;
+  }
