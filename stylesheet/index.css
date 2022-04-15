@@ -32,3 +32,10 @@
     width: 500px;
     height: 600px;
   }
+
+  #form-signup {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    padding: 50px;
+  }
