@@ -7,7 +7,6 @@ const selectElement = id => document.getElementById(id);
 
 document.addEventListener('DOMContentLoaded', (e) => {
     loadMainPage();    
-    e.preventDefault();
     createForm();
 })
 
@@ -45,30 +44,21 @@ function renderProducts(product){
     price.className = 'product-price';
 
     const addButton = createElem('button');
-    addButton.textContent = 'ADD';
+    addButton.textContent = 'ADD TO CART';
     addButton.className = "add-button"
-    addButton.addEventListener('click', () => {
+    addButton.addEventListener('click', (event) => {
         const total = selectElement('total');
-        let prices = [];
-        let price = parseInt(product.price, 10)
-        prices.push(price);
-        let sum = prices.reduce((acc, price) => acc + price)
-        total.innerHTML = `$ ${sum}`; 
-    })
-        
-    const deleteButton = createElem('button');
-    deleteButton.textContent = 'REMOVE';
-    deleteButton.addEventListener('click', () => {
-        const total = selectElement('total');
-        let prices = [];
-        let price = parseInt(product.price, 10)
-        prices.pop();
-        let sum = prices.reduce((acc, price) => acc - price)
-        total.innerHTML = `$ ${sum}`;          
+        let amount = event.target.previousElementSibling.innerText //this is the price $28
+        let add = amount.replace("$", "") //just the integer 28
+            if(total.innerHTML === 'Cart') {
+            total.innerHTML = `${parseInt(add)}`
+            } else {
+            total.innerHTML = parseInt(total.innerHTML) + parseInt(add)
+        }       
     })
       
     productCardContainer.appendChild(productCard);
-    productCard.append(image, name, price, addButton, deleteButton);
+    productCard.append(image, name, price, addButton);
 } 
 
 //get data  for displaying one card
@@ -148,51 +138,22 @@ allProducts.addEventListener('click', (e) => {
     })  
 });
 
-const eyes = selectElement('eyes');
-eyes.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        fetch('http://localhost:3000/eyes/') 
-        .then(resp => resp.json())
-        .then(products => 
-            products.forEach(product => renderProducts(product))
-        )
-    })
-
-const lips = selectElement('lips');
-lips.addEventListener('click', (e) => {
-        e.preventDefault();
-        resetCardContainer();
-        fetch('http://localhost:3000/lips/') 
-        .then(resp => resp.json())
-        .then(products => 
-            products.forEach(product => renderProducts(product))
-        )
-    })
-
-// const faces = selectElement('faces');
-// faces.addEventListener('click', (e) => {
-//         e.preventDefault();
-//         resetCardContainer();
-//         fetch('http://localhost:3000/faces/') 
-//         .then(resp => resp.json())
-//         .then(products => 
-//             products.forEach(product => renderProducts(product))
-//         )
-//     })
-
+//Event listener helper function for remaining tabs
+    const eyes = selectElement('eyes');
+    const lips = selectElement('lips');
     const faces = selectElement('faces');
     function fetchProducts(element) {
         element.addEventListener('click', (e) => {
-                e.preventDefault();
                 resetCardContainer();
-                fetch(`http://localhost:3000/${element}/`) 
+                fetch(`http://localhost:3000/${element.id}/`) 
                 .then(resp => resp.json())
                 .then(products => 
                     products.forEach(product => renderProducts(product))
                 )
             })
     }
+    fetchProducts(eyes);
+    fetchProducts(lips);
     fetchProducts(faces);
 
 
