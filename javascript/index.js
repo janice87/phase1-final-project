@@ -6,8 +6,7 @@ const createElem = tag => document.createElement(tag);
 const selectElement = id => document.getElementById(id);
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    loadMainPage();    
-    createForm();
+    loadMainPage();   
 })
 
 //Get data from API and for each product send it to the renderProducts function
@@ -56,8 +55,11 @@ function renderProducts(product){
             total.innerHTML = parseInt(total.innerHTML) + parseInt(add)
         }       
     })
-      
-    productCardContainer.appendChild(productCard);
+    
+    const hideForm = selectElement('form-signup');
+    hideForm.hidden = true;
+
+    productCardContainer.append(productCard);
     productCard.append(image, name, price, addButton);
 } 
 
@@ -104,26 +106,54 @@ function showOneCard (product) {
 const formContainer = selectElement('form-container');
 const form = selectElement('form-signup');
 
-function createForm() { 
+const createForm = () => { 
+
     const content = createElem('p');
-    content.textContent = 'Sign up exclusive offers and updates!';
+    content.textContent = 'Create an account and get exclusive offers and updates!';
+
+    const name = createElem('input')
+    name.type = 'text'
+    name.placeholder = 'Enter name here'
     
     const emailInput = createElem('input');
     emailInput.type = 'text';
     emailInput.placeholder = "Email";
 
+    const password = createElem('input');
+    password.type = 'password';
+    password.placeholder = "Enter password here";
+
     const submitButton = createElem('input');
     submitButton.type = 'submit';
     submitButton.value = "SUBMIT";
 
-    form.append(content, emailInput, submitButton); 
-    formContainer.append(form);
+    form.append(content, name, emailInput, password, submitButton); 
+    formContainer.append(form);    
 }
+
+const account = selectElement('account')
+account.addEventListener('click', () => {
+    resetCardContainer();
+    createForm()
+    
+    const hideForm = selectElement('form-signup');
+    hideForm.hidden = false;
+})
 
 //event listener to submit form
 form.addEventListener('submit', e => {
     e.preventDefault();
-    form.reset();
+    alert("Thank you for creating an account!");
+    form.reset(); 
+   
+    const hideForm = selectElement('form-signup');
+    hideForm.innerHTML = "";
+   
+    const thankyou = createElem('p')
+    thankyou.innerText = 'You have been added to our list for exclusive updates!'
+
+    const submitMessage = selectElement('form-container')
+    submitMessage.append(thankyou);
 })  
 
 //event listener for tabs
