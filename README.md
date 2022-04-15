@@ -7,7 +7,7 @@ Communicate with a public API. The following link is the source of the API used:
 
 Incorporate at least 3 separate event listeners. This project includes DOMContentLoaded, clicks and submit.
 
-Interactivity in this application includes clicking on buttons, navigating through different tabs and clicking on one product to retrieve more information.  
+Interactivity in this application includes clicking on buttons, navigating through different tabs, clicking on a single product to retrieve more information and submitting a form to receive updates.  
 
 ## Installation
 JSON Server was used in this application. The data from the public API was filtered by makeup brand and stored in the db.json file. If you do not already have json server installed, run 
@@ -34,3 +34,6 @@ To view the each product by category it can be accessed like so:
 
 ## Contributing
 Pull requests are welcome. For any major changes, please feel free to reach out to discuss the changes. 
+
+## CREDIT
+Image from Clinique's website
