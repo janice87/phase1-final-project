@@ -56,6 +56,9 @@ function renderProducts(product){
         }       
     })
     
+    const emptyCart = selectElement('empty-cart')
+    emptyCart.addEventListener('click', () => total.innerHTML = '0')
+
     const hideForm = selectElement('form-signup');
     hideForm.hidden = true;
 
@@ -138,6 +141,8 @@ account.addEventListener('click', () => {
     
     const hideForm = selectElement('form-signup');
     hideForm.hidden = false;
+    hideForm.hidden = false ? hideForm.hidden = true : hideForm.hidden = false 
+    
 })
 
 //event listener to submit form
@@ -186,4 +191,4 @@ allProducts.addEventListener('click', (e) => {
     fetchProducts(lips);
     fetchProducts(faces);
 
-
+    
