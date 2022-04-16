@@ -32,6 +32,11 @@ To view the each product by category it can be accessed like so:
  
  http://localhost:3000/lips 
 
+
+## Demo
+
+ ![cliniqueDemo](demo/demo.gif)
+
 ## Contributing
 Pull requests are welcome. For any major changes, please feel free to reach out to discuss the changes. 
 
