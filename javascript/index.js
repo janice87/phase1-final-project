@@ -1,11 +1,10 @@
 const productCardContainer = document.getElementById('product-card-container');
-const cartContainer = document.getElementById('cart-container');
 
 //Helper functions
 const createElem = tag => document.createElement(tag);
 const selectElement = id => document.getElementById(id);
 
-document.addEventListener('DOMContentLoaded', (e) => {
+document.addEventListener('DOMContentLoaded', () => {
     loadMainPage();   
 })
 
@@ -49,7 +48,7 @@ function renderProducts(product){
         const total = selectElement('total');
         let amount = event.target.previousElementSibling.innerText //this is the price $28
         let add = amount.replace("$", "") //just the integer 28
-            if(total.innerHTML === 'Cart') {
+            if(total.innerHTML === '0') {
             total.innerHTML = `${parseInt(add)}`
             } else {
             total.innerHTML = parseInt(total.innerHTML) + parseInt(add)
@@ -163,8 +162,7 @@ form.addEventListener('submit', e => {
 
 //event listener for tabs
 const allProducts = selectElement('all-products');
-allProducts.addEventListener('click', (e) => {
-    e.preventDefault();
+allProducts.addEventListener('click', () => {
     resetCardContainer();
     fetch('http://localhost:3000/products')
     .then(resp => resp.json())
@@ -178,9 +176,9 @@ allProducts.addEventListener('click', (e) => {
     const lips = selectElement('lips');
     const faces = selectElement('faces');
     function fetchProducts(element) {
-        element.addEventListener('click', (e) => {
+        element.addEventListener('click', () => { //element is the eyes a tag
                 resetCardContainer();
-                fetch(`http://localhost:3000/${element.id}/`) 
+                fetch(`http://localhost:3000/${element.id}/`) //returns http://localhost:3000/eyes/ eyes a tag id="eyes"
                 .then(resp => resp.json())
                 .then(products => 
                     products.forEach(product => renderProducts(product))
